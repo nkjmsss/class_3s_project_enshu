@@ -10,7 +10,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/nkjmsss/class_3s_project_enshu/models"
+	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 )
 
 const (

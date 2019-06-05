@@ -1,4 +1,4 @@
-module github.com/nkjmsss/class_3s_project_enshu
+module github.com/nkjmsss/class_3s_project_enshu/middleware
 
 go 1.12
 

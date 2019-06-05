@@ -7,8 +7,8 @@ import (
 
 	"github.com/marcusolsson/tui-go"
 
-	"github.com/nkjmsss/class_3s_project_enshu/client/tcp"
-	"github.com/nkjmsss/class_3s_project_enshu/models"
+	"github.com/nkjmsss/class_3s_project_enshu/middleware/client/tcp"
+	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 )
 
 func main() {

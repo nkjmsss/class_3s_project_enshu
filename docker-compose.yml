@@ -3,7 +3,7 @@ services:
   go:
     build: ./middleware
     volumes:
-      - ./middleware:/go/src/github.com/nkjmsss/class_3s_project_enshu
+      - ./middleware:/go/src/github.com/nkjmsss/class_3s_project_enshu/middleware
     environment:
       GO111MODULE: "on"
     tty: true
