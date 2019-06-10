@@ -1,11 +1,9 @@
 version: "3"
 services:
-  go:
+  middleware:
     build: ./middleware
     volumes:
       - ./middleware:/go/src/github.com/nkjmsss/class_3s_project_enshu/middleware
     environment:
       GO111MODULE: "on"
     tty: true
-    ports:
-      - 1323:1323
