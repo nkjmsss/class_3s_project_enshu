@@ -9,7 +9,7 @@ type Data struct {
 	X     int
 	Y     int
 	Z     int
-	Shape int
+	Shape int // 手の形
 }
 
 func (d *Data) String() string {
