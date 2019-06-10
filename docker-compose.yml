@@ -12,3 +12,4 @@ services:
     volumes:
       - ./controller:/src
     tty: true
+    stdin_open: true
