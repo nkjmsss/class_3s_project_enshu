@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   middleware:
     build: ./middleware
@@ -12,4 +12,5 @@ services:
     volumes:
       - ./controller:/src
     tty: true
-    stdin_open: true
+    expose:
+      - 1323
