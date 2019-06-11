@@ -4,13 +4,18 @@ services:
     build: ./middleware
     volumes:
       - ./middleware:/go/src/github.com/nkjmsss/class_3s_project_enshu/middleware
+    ports:
+      - 1323:1323
     environment:
       GO111MODULE: "on"
     tty: true
+    restart: always
+    command: go run main.go
   controller:
     build: ./controller
     volumes:
       - ./controller:/src
     tty: true
+    restart: always
     expose:
       - 1323
