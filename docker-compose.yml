@@ -19,3 +19,4 @@ services:
     restart: always
     expose:
       - 1323
+    command: python server.py
