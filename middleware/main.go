@@ -12,6 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
+	"github.com/nkjmsss/class_3s_project_enshu/middleware/tcp"
 )
 
 const (
@@ -28,10 +29,17 @@ func main() {
 	for {
 		conn, _ := listen.Accept()
 		go func() {
+			defer func() {
+        if err := recover(); err != nil {
+					log.Errorf("recovered from: %s\n", err)
+        }
+			}()
+			defer conn.Close()
 			conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+
 			request, err := http.ReadRequest(bufio.NewReader(conn))
 			if err != nil {
-				panic(err)
+				log.Error(err)
 			}
 
 			// read request body
@@ -47,13 +55,14 @@ func main() {
 				log.Error(err)
 			}
 
-			log.Info(data)
-
 			response := http.Response{
 				StatusCode: 200,
 			}
 			response.Write(conn)
-			conn.Close()
+
+			if err := tcp.SendTCP(data, "controller"); err != nil {
+				log.Error(err)
+			}
 		}()
 	}
 }
