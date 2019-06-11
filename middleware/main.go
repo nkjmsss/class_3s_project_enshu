@@ -7,6 +7,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/tcp"
 )
@@ -32,6 +34,8 @@ func handlePost(c echo.Context) error {
 	if err := tcp.SendTCP(d, "controller"); err != nil {
 		return err
 	}
+
+	log.Infof("{time: %d, x: %d, y: %d, z: %d, shape: %d}", d.Time, d.X, d.Y, d.Z, d.Shape)
 
 	return c.JSON(http.StatusOK, d)
 }
