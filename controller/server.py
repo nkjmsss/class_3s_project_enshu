@@ -12,11 +12,15 @@ def main():
     # 待ち受け用のソケットオブジェクト
     server = socket.socket()
     #tello用のソケットオブジジェクト
+    host = ''
+    port = 9000
+    locaddr = (host,port)
     tello = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   #追加
     tello_address = ('192.168.10.1', 8889)  #追加
     try:
         # 待ち受けポートに割り当て
         server.bind(('0.0.0.0', 1323))
+        tello.bind(locaddr)
         while True:
             # 待ち受け開始
             server.listen(5)
@@ -49,15 +53,15 @@ def main():
                 #移動速度
                 vol = max(min(speedb,100),10)
                 #移動速度をセット
-                sent = self.tello.sendto('speed vol'.encode(encoding="utf-8"),tello_addres)
+                sent = tello.sendto('speed vol'.encode(encoding="utf-8"),tello_addres)
 
                 #xy平面上でドローンの向きを適切に変更
                 if x >= 0: 
                     theta = int(np.arctan(x/y)*180/np.pi)
-                    sent = self.tello.sendto('cw theta'.encode(encoding="utf-8"),tello_addres)
+                    sent = tello.sendto('cw theta'.encode(encoding="utf-8"),tello_addres)
                 else:
                     theta = int(np.arctan(x/y)*180/np.pi)
-                    sent = self.tello.sendto('ccw theta'.encode(encoding="utf-8"),tello_addres)
+                    sent = tello.sendto('ccw theta'.encode(encoding="utf-8"),tello_addres)
                 
                 #最小で20cmまでしか移動できないので、前方向、上下方向の移動する回数を求めている
                 forwardnum = forward/21
@@ -66,15 +70,15 @@ def main():
                 #前方向→上下方向とできるだけ滑らかに移動
                 if z >= 0:
                     for i in raneg(0,forwardnum):
-                        sent = self.tello.sendto('forward 21'.encode(encoding="utf-8"),tello_addres)
+                        sent = tello.sendto('forward 21'.encode(encoding="utf-8"),tello_addres)
                         if (updown):
-                            sent = self.tello.sendto('up 21'.encode(encoding="utf-8"),tello_addres)
+                            sent = tello.sendto('up 21'.encode(encoding="utf-8"),tello_addres)
                             updown -= 1
                 else:
                     for i in raneg(0,forwardnum):
-                        sent = self.tello.sendto('forward 21'.encode(encoding="utf-8"),tello_addres)
+                        sent = ello.sendto('forward 21'.encode(encoding="utf-8"),tello_addres)
                         if (updown):
-                            sent = self.tello.sendto('down 21'.encode(encoding="utf-8"),tello_addres)
+                            sent = tello.sendto('down 21'.encode(encoding="utf-8"),tello_addres)
                             updown -= 1
             
             #frの値を更新
