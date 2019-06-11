@@ -2,12 +2,14 @@ package main
 
 import (
 	"time"
+	"encoding/json"
+	"net/http"
+	"bytes"
 
 	log "github.com/sirupsen/logrus"
 
 	"github.com/marcusolsson/tui-go"
 
-	"github.com/nkjmsss/class_3s_project_enshu/middleware/tcp"
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 )
 
@@ -58,7 +60,34 @@ func updateUI(ui tui.UI, data *models.Data) {
 func handleClick (data *models.Data, ui tui.UI) {
 	data.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
 	updateUI(ui, data)
-	if err := tcp.SendTCP(data, "localhost"); err != nil {
+	if err := sendPost(data); err != nil {
 		log.Error(err)
 	}
+}
+
+func sendPost(data *models.Data) error {
+	jsonstr, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(
+		"POST",
+		"http://localhost:1323",
+		bytes.NewBuffer(jsonstr),
+	)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return err
 }
