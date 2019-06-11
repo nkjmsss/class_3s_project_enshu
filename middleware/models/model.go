@@ -5,11 +5,11 @@ import (
 )
 
 type Data struct {
-	Time  int
-	X     int
-	Y     int
-	Z     int
-	Shape int // 手の形
+	Time  int `json:"time"`
+	X     int `json:"x"`
+	Y     int `json:"y"`
+	Z     int `json:"z"`
+	Shape int `json:"shape"` // 手の形
 }
 
 func (d *Data) String() string {
