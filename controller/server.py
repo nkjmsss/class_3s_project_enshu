@@ -17,10 +17,12 @@ def main():
     locaddr = (host,port)
     tello = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   #追加
     tello_address = ('192.168.10.1', 8889)  #追加
+    recieve_message = {"time":-1,"x":0,"y":2,"z":0,"shape":0}
     try:
         # 待ち受けポートに割り当て
-        server.bind(('0.0.0.0', 1323))
         tello.bind(locaddr)
+        server.bind(('0.0.0.0', 1323))
+        
         while True:
             # 待ち受け開始
             server.listen(5)
@@ -31,7 +33,8 @@ def main():
             #受け取ったメッセージを出力
             #データ構造は辞書 ex. {"Time":1560232730357,"X":0,"Y":2,"Z":0,"Shape":0}
             recieve_messege = client.recv(4096).decode()
-  
+            if recieve_massag['time'] < 0:
+                continue
             #toは手の動きの相対的な変化を記録する
             to = []                       #追加↓
             to[0] =  recieve_message['x']
