@@ -33,7 +33,7 @@ def main():
             #受け取ったメッセージを出力
             #データ構造は辞書 ex. {"Time":1560232730357,"X":0,"Y":2,"Z":0,"Shape":0}
             recieve_messege = client.recv(4096).decode()
-            if recieve_massag['time'] < 0:
+            if recieve_massage['time'] < 0:
                 continue
             #toは手の動きの相対的な変化を記録する
             to = []                       #追加↓
