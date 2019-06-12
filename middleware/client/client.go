@@ -1,10 +1,10 @@
 package main
 
 import (
-	"time"
+	"bytes"
 	"encoding/json"
 	"net/http"
-	"bytes"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -38,12 +38,53 @@ func main() {
 		data.Y--
 		handleClick(data, ui)
 	})
-	ui.SetKeybinding("s", func() {
+	ui.SetKeybinding("k", func() {
 		data.Z++
 		handleClick(data, ui)
 	})
-	ui.SetKeybinding("d", func() {
+	ui.SetKeybinding("j", func() {
 		data.Z--
+		handleClick(data, ui)
+	})
+
+	ui.SetKeybinding("0", func() {
+		data.Shape = 0
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("1", func() {
+		data.Shape = 1
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("2", func() {
+		data.Shape = 2
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("3", func() {
+		data.Shape = 3
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("4", func() {
+		data.Shape = 4
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("5", func() {
+		data.Shape = 5
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("6", func() {
+		data.Shape = 6
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("7", func() {
+		data.Shape = 7
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("8", func() {
+		data.Shape = 8
+		handleClick(data, ui)
+	})
+	ui.SetKeybinding("9", func() {
+		data.Shape = 9
 		handleClick(data, ui)
 	})
 
@@ -57,7 +98,7 @@ func updateUI(ui tui.UI, data *models.Data) {
 	ui.SetWidget(widget)
 }
 
-func handleClick (data *models.Data, ui tui.UI) {
+func handleClick(data *models.Data, ui tui.UI) {
 	data.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
 	updateUI(ui, data)
 	if err := sendPost(data); err != nil {
