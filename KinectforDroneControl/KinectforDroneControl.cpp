@@ -8,6 +8,11 @@
 #include <strsafe.h>
 #include "resource.h"
 #include "BodyBasics.h"
+#include <windows.h>
+#include <iostream>
+#include <cpprest/http_client.h>
+
+
 
 #ifdef _DEBUG
 #   define MyOutputDebugString( str, ... ) \
