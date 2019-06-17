@@ -20,6 +20,7 @@ const (
 func main() {
 	e := echo.New()
 	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
 
 	e.POST("/", handlePost)
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", PORT)))
