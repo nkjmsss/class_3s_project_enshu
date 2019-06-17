@@ -22,8 +22,13 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 
+	e.GET("/", handleGet)
 	e.POST("/", handlePost)
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", PORT)))
+}
+
+func handleGet(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello World")
 }
 
 func handlePost(c echo.Context) error {
