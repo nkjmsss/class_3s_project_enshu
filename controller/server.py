@@ -10,12 +10,12 @@ fr = [0.0,0.0,0.0,0.0] #追加
 
 #離着陸を判断するオートマトン
 class takeofflandAutomata():
-    def __init__(self,states,alphabets,transitions,current_state,finalststes):
+    def __init__(self,states,alphabets,transitions,current_state,final_state):
         self.states = states
         self.alphabets = alphabets
         self.transitions = transitions
         self.current_state = current_state
-        self.final_states = final_states
+        self.final_state = final_state
     def run(self,shape):
         self.current_state = self.transitions[self.current_state][shape]
     
@@ -37,14 +37,14 @@ def main():
 
     #離着陸オートマトンの引数
     states = {"a","b","c","d","e","f","g"}
-    alpabets = {0,1,2}
+    alphabets = {0,1,2}
     transitions = {
-        a:{0:"b",1:"a",2:"a"},
-        b:{0:"b",1:"c",2:"a"},
-        c:{0:"a",1:"c",2:"d"},
-        d:{0:"e",1:"a",2:"d"},
-        e:{0:"e",1:"f",2:"a"},
-        f:{0:"a",1:"e",2:"g"},
+        "a":{0:"b",1:"a",2:"a"},
+        "b":{0:"b",1:"c",2:"a"},
+        "c":{0:"a",1:"c",2:"d"},
+        "d":{0:"e",1:"a",2:"d"},
+        "e":{0:"e",1:"f",2:"a"},
+        "f":{0:"a",1:"e",2:"g"},
     }
     current_state = "a"
     final_state = "g"
@@ -89,7 +89,7 @@ def main():
                     takeoffland = 6
                     sky = 1
             #空中にいるなら
-        　　 else:
+            else:
                 #手の形を読み取ってオートマトン遷移
                 land.run(recieve_massage['shape'])
                 #着陸
@@ -138,32 +138,40 @@ def main():
                 updownnum = updown/21
 
                 #上昇するなら4,下降するなら5
-                updown = -1
+                up_down = -1
 
                 #updownを求める
                 if z >= 0:
-                    updown = 4
+                    up_down = 4
                 else:
-                    updown = 5
+                    up_down = 5
                 
                 
                 #離着陸
                 if takeoffland > 0:
                     sent = tello.sendto('move[takeoffland]'.encode(encoding="utf-8"),tello_addres)
+                    print(move[takeoffland]);
 
                 #向きを変える 
                 sent = tello.sendto('move[0] 100'.encode(encoding="utf-8"),tello_addres)
                 sent = tello.sendto('move[rotate] theta'.encode(encoding="utf-8"),tello_addres)
-
-        　　　　 #スピードを設定
+                print(move[rotate],end = ' ')
+                print(theta)
+                
+                #スピードを設定
                 sent = tello.sendto('move[0] vol'.encode(encoding="utf-8"),tello_addres)
+                print(move[0],end = ' ')
+                print(vol)
 
                 #移動
+                print(move[3],end = ' ')
+                print(move[up_down])
                 for i in raneg(0,forwardnum):
                     sent = tello.sendto('move[3]'.encode(encoding="utf-8"),tello_addres)
                     if (updownnum):
                         sent = tello.sendto('move[updown]'.encode(encoding="utf-8"),tello_addres)
                         updownnum -= 1
+                
                 
             
             #frの値を更新
