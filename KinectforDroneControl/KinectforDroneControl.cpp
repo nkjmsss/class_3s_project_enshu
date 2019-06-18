@@ -44,7 +44,7 @@ int APIENTRY wWinMain(
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
+	httpPost();
     CBodyBasics application;
     application.Run(hInstance, nShowCmd);
 }
@@ -378,7 +378,6 @@ void CBodyBasics::ProcessBody(INT64 nTime, int nBodyCount, IBody** ppBodies)
 							if (rightHandState == HandState_Closed) {
 								MyOutputDebugString(L"x = %lf, y = %lf, z = %lf\n", joints[23].Position.X, joints[23].Position.Y, joints[23].Position.Z);
 							}
-							httpPost();
 
                         }
                     }

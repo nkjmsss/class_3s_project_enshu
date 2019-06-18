@@ -1,14 +1,15 @@
 #include "http.h"
 #include <windows.h>
-#include <iostream>
 #include <cpprest/http_client.h>
-#include "MyOutputDebugString.h"
+#include <cpprest/json.h>
+#include <locale.h>
+#include <string>
+#include <cstring>
 
-using namespace utility;                    // Common utilities like string conversions
 using namespace web;                        // Common features like URIs.
 using namespace web::http;                  // Common HTTP functionality
 using namespace web::http::client;          // HTTP client features
-using namespace concurrency::streams;       // Asynchronous streams
+
 
 #ifdef _DEBUG
 #   define MyOutputDebugString( str, ... ) \
@@ -21,19 +22,49 @@ using namespace concurrency::streams;       // Asynchronous streams
 #    define MyOutputDebugString( str, ... ) // 空実装
 #endif
 
-void prepareHttp() {
-	wstring baseUrl = L"http://localhost:1323";
-	http_client httpClient(baseUrl);
+
+pplx::task<int> Post()
+{
+	return pplx::create_task([]
+	{
+		json::value postData;
+
+		postData[L"user_info"][L"name"] = json::value::string(L"this is test");
+		postData[L"user_info"][L"sex"] = json::value::string(L"man");
+		postData[L"user_info"][L"age"] = json::value::number(20);
+
+		http_client client(L"http://localhost:1213");
+		return client.request(methods::POST, L"", postData.serialize(), L"application/json");
+	}).then([](http_response response)
+	{
+		if (response.status_code() == status_codes::OK)
+		{
+			//auto body = response.extract_string();
+			//std::wcout << body.get().c_str() << std::endl;
+			//std::cout << response.extract_json() << std::endl;
+			return response.extract_json();
+		}
+	}).then([](json::value json)
+	{
+		// リザルトコードを返す
+		return json[L"result"].as_integer();
+	});
 }
 
 void httpPost()
 {
-	http_response httpResponse = httpClient.request(methods::POST, L"cancellation", L"This is test").get();
-
-	if (httpResponse.status_code() == status_codes::OK)
+	try
 	{
-		wstring output = httpResponse.extract_utf16string().get();
-		const WCHAR* outputWCHAR = output.c_str();
-		MyOutputDebugString(outputWCHAR);
+		auto result = Post().wait();
+		MyOutputDebugString(L"Result=%d\n", result);
+	}
+	catch (const std::exception& e)
+	{
+		OutputDebugString(L"Error");
+		WCHAR ws[100];
+
+		mbstowcs(ws, e.what(), 100);
+		OutputDebugString(ws);
+		OutputDebugString(L"\n");
 	}
 }
