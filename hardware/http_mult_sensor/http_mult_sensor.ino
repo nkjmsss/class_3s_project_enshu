@@ -20,6 +20,9 @@ int value3;
 int value4;
 int value5;
 int value6;
+int threshold;
+int httpCode;
+String requestBody;
 
 void setup() {
   Serial.begin(115200);
@@ -110,8 +113,26 @@ void loop() {
   value4 = sensor4.read();
   value5 = sensor5.read();
   value6 = sensor6.read();
-  String requestBody = (String)sensor.read();
-  int httpCode = http.POST(requestBody);
+  if(value1<threshold){
+    requestBody.concat("1,%d"%(value1));
+  }
+  if(value2<threshold){
+    requestBody.concat("2,%d"%(value2));
+  }
+  if(value3<threshold){
+    requestBody.concat("3,%d"%(value3));
+  }
+  if(value4<threshold){
+    requestBody.concat("4,%d"%(value4));
+  }
+  if(value5<threshold){
+    requestBody.concat("5,%d"%(value5));
+  }
+  if(value6<threshold){
+    requestBody.concat("6,%d"%(value6));
+  }
+  
+  httpCode = http.POST(requestBody);
 
   Serial.printf("Response: %d", httpCode);
   Serial.println();
@@ -120,7 +141,7 @@ void loop() {
     Serial.print("Response Body: ");
     Serial.println(body);
   }
-  if(body.toInt()>200){
+  if(body.toInt()<threshold){
     digitalWrite(15,HIGH);
     }else{
     digitalWrite(15,LOW);

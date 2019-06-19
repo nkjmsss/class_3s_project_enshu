@@ -10,6 +10,7 @@ const char PASSWORD[] = "48e04d7a669be";
 const char URL[] = "http://192.168.10.2:8000/data";
 String body;
 int value;
+int threshold=200;
 int httpCode;
 String requestBody;
 
@@ -47,7 +48,7 @@ void loop() {
   HTTPClient http;
   http.begin(URL);
   value = sensor.read();
-  if(value>200){
+  if(value<threshold){
     requestBody = (String)value;
     httpCode = http.POST(requestBody);
   }
@@ -59,7 +60,7 @@ void loop() {
     Serial.print("Response Body: ");
     Serial.println(body);
   }
-  if(body.toInt()>200){
+  if(body.toInt()<threshold){
     digitalWrite(15,HIGH);
     }else{
     digitalWrite(15,LOW);
