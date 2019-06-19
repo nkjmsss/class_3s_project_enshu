@@ -9,6 +9,9 @@ const char SSID[] = "aterm-602fae-g";
 const char PASSWORD[] = "48e04d7a669be";
 const char URL[] = "http://192.168.10.2:8000/data";
 String body;
+int value;
+int httpCode;
+String requestBody;
 
 void setup() {
   Serial.begin(115200);
@@ -43,9 +46,12 @@ void setup() {
 void loop() {
   HTTPClient http;
   http.begin(URL);
-  String requestBody = (String)sensor.read();
-  int httpCode = http.POST(requestBody);
-
+  value = sensor.read();
+  if(value>200){
+    requestBody = (String)value;
+    httpCode = http.POST(requestBody);
+  }
+  
   Serial.printf("Response: %d", httpCode);
   Serial.println();
   if (httpCode == HTTP_CODE_OK) {
