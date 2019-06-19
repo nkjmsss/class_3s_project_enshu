@@ -1,11 +1,12 @@
 #include "http.h"
 #include <windows.h>
 #include <cpprest/http_client.h>
-#include <cpprest/json.h>
-#include <locale.h>
-#include <string>
-#include <cstring>
+#include <cpprest/filestream.h>
+#include <iostream>
+//#include <string>
+//#include <cstring>
 
+using namespace utility;
 using namespace web;                        // Common features like URIs.
 using namespace web::http;                  // Common HTTP functionality
 using namespace web::http::client;          // HTTP client features
@@ -29,11 +30,13 @@ pplx::task<int> Post()
 	{
 		json::value postData;
 
-		postData[L"user_info"][L"name"] = json::value::string(L"this is test");
-		postData[L"user_info"][L"sex"] = json::value::string(L"man");
-		postData[L"user_info"][L"age"] = json::value::number(20);
+		postData[L"time"] = json::value::number(1653);
+		postData[L"x"] = json::value::number(20);
+		postData[L"y"] = json::value::number(40);
+		postData[L"z"] = json::value::number(60);
+		postData[L"shape"] = json::value::number(2);
 
-		http_client client(L"http://localhost:1213");
+		http_client client(L"http://localhost:1323");
 		return client.request(methods::POST, L"", postData.serialize(), L"application/json");
 	}).then([](http_response response)
 	{
@@ -46,8 +49,12 @@ pplx::task<int> Post()
 		}
 	}).then([](json::value json)
 	{
+		
 		// リザルトコードを返す
-		return json[L"result"].as_integer();
+		int resultCode = json[L"time"].as_integer();
+		MyOutputDebugString(L"time = %d\n", resultCode);
+		return resultCode;
+		
 	});
 }
 
