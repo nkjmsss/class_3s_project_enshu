@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -36,6 +37,8 @@ func handlePost(c echo.Context) error {
 	if err := c.Bind(d); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
+
+	d.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
 
 	if err := tcp.SendTCP(d, "controller"); err != nil {
 		return err

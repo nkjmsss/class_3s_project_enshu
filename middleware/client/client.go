@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -99,7 +98,7 @@ func updateUI(ui tui.UI, data *models.Data) {
 }
 
 func handleClick(data *models.Data, ui tui.UI) {
-	data.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
+	// data.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
 	updateUI(ui, data)
 	if err := sendPost(data); err != nil {
 		log.Error(err)
