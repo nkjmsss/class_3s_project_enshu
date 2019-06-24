@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+const (
+	UNKNOWN = iota
+	NOT_TRACKED
+	OPEN
+	CLOSED
+	LASSO
+)
+
 type hand struct {
 	X     int `json:"x"`
 	Y     int `json:"y"`
@@ -23,7 +31,7 @@ type ReceiveData struct {
 
 func (h *hand) String() string {
 	return fmt.Sprintf(
-		"X: %d\nY: %d\nZ: %d\nShape: %d\n",
+		"\nX: %d\nY: %d\nZ: %d\nShape: %d\n",
 		h.X,
 		h.Y,
 		h.Z,
