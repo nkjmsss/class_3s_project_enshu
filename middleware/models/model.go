@@ -21,13 +21,12 @@ type ReceiveData struct {
 	Left  hand `json:"left"`
 }
 
-func (d *SendData) String() string {
+func (h *hand) String() string {
 	return fmt.Sprintf(
-		"Time: %dms\nX: %d\nY: %d\nZ: %d\nShape: %d\n",
-		d.Time,
-		d.RightHand.X,
-		d.RightHand.Y,
-		d.RightHand.Z,
-		d.RightHand.Shape,
+		"X: %d\nY: %d\nZ: %d\nShape: %d\n",
+		h.X,
+		h.Y,
+		h.Z,
+		h.Shape,
 	)
 }
