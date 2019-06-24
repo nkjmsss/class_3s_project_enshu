@@ -33,7 +33,20 @@ func SendTCP(data *models.SendData, uri string) error {
 	defer conn.Close()
 
 	// POST
-	body, _ := json.Marshal(&data)
+	_d := &struct {
+		Time  int `json:"time"`
+		X     int `json:"x"`
+		Y     int `json:"y"`
+		Z     int `json:"z"`
+		Shape int `json:"shape"`
+	}{
+		Time:  data.Time,
+		X:     data.RightHand.X,
+		Y:     data.RightHand.Y,
+		Z:     data.RightHand.Z,
+		Shape: data.RightHand.Shape,
+	}
+	body, _ := json.Marshal(_d)
 	request, _ := http.NewRequest(
 		"POST",
 		fmt.Sprintf("http://%s:%d", URI, PORT),
