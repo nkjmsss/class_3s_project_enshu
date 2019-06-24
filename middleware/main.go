@@ -33,18 +33,23 @@ func handleGet(c echo.Context) error {
 }
 
 func handlePost(c echo.Context) error {
-	d := new(models.Data)
-	if err := c.Bind(d); err != nil {
+	// receive and bind data
+	r := new(models.ReceiveData)
+	if err := c.Bind(r); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 
-	d.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
+	// reshape data into SendData
+	d := &models.SendData{
+		Time:      int(time.Now().UnixNano() / int64(time.Millisecond)),
+		RightHand: r.Right,
+	}
 
 	if err := tcp.SendTCP(d, "controller"); err != nil {
 		return err
 	}
 
-	log.Infof("{time: %d, x: %d, y: %d, z: %d, shape: %d}", d.Time, d.X, d.Y, d.Z, d.Shape)
+	log.Infof(d.RightHand.String())
 
 	return c.JSON(http.StatusOK, d)
 }

@@ -15,7 +15,7 @@ const (
 	PORT        = 1323
 )
 
-func SendTCP(data *models.Data, uri string) error {
+func SendTCP(data *models.SendData, uri string) error {
 	URI := DEFAULT_URI
 	if uri != "" {
 		URI = uri
