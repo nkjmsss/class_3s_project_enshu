@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"time"
 
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 )
@@ -21,7 +22,11 @@ func SendTCP(data *models.SendData, uri string) error {
 		URI = uri
 	}
 
-	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", URI, PORT))
+	d := net.Dialer{
+		Timeout: 10 * time.Millisecond,
+	}
+
+	conn, err := d.Dial("tcp", fmt.Sprintf("%s:%d", URI, PORT))
 	if err != nil {
 		return err
 	}
