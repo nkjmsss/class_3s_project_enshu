@@ -21,7 +21,9 @@ const (
 func main() {
 	e := echo.New()
 	e.Use(middleware.Recover())
-	// e.Use(middleware.Logger())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "status=${status}, error=${error}\n",
+	}))
 
 	e.GET("/", handleGet)
 	e.POST("/", handlePost)
@@ -45,13 +47,11 @@ func handlePost(c echo.Context) error {
 		RightHand: r.Right,
 	}
 
-	log.Info(d.RightHand.String())
+	log.Info("\n" + d.RightHand.String())
 
 	if err := tcp.SendTCP(d, "controller"); err != nil {
 		return err
 	}
-
-	log.Infof(d.RightHand.String())
 
 	return c.JSON(http.StatusOK, d)
 }
