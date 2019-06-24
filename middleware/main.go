@@ -21,7 +21,7 @@ const (
 func main() {
 	e := echo.New()
 	e.Use(middleware.Recover())
-	e.Use(middleware.Logger())
+	// e.Use(middleware.Logger())
 
 	e.GET("/", handleGet)
 	e.POST("/", handlePost)
@@ -44,6 +44,8 @@ func handlePost(c echo.Context) error {
 		Time:      int(time.Now().UnixNano() / int64(time.Millisecond)),
 		RightHand: r.Right,
 	}
+
+	log.Info(d.RightHand.String())
 
 	if err := tcp.SendTCP(d, "controller"); err != nil {
 		return err
