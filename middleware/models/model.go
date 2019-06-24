@@ -31,7 +31,7 @@ type ReceiveData struct {
 
 func (h *hand) String() string {
 	return fmt.Sprintf(
-		"\nX: %d\nY: %d\nZ: %d\nShape: %d\n",
+		"X: %d\nY: %d\nZ: %d\nShape: %d\n",
 		h.X,
 		h.Y,
 		h.Z,
