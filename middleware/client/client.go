@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	data := &models.Data{}
+	data := &models.SendData{}
 
 	ui, err := tui.New(tui.NewVBox(tui.NewLabel("controll your github.com/nkjmsss/class_3s_project_enshu with arrow key")))
 	if err != nil {
@@ -22,68 +22,68 @@ func main() {
 
 	ui.SetKeybinding("Esc", func() { ui.Quit() })
 	ui.SetKeybinding("Left", func() {
-		data.X--
+		data.RightHand.X--
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("Right", func() {
-		data.X++
+		data.RightHand.X++
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("Up", func() {
-		data.Y++
+		data.RightHand.Y++
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("Down", func() {
-		data.Y--
+		data.RightHand.Y--
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("k", func() {
-		data.Z++
+		data.RightHand.Z++
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("j", func() {
-		data.Z--
+		data.RightHand.Z--
 		handleClick(data, ui)
 	})
 
 	ui.SetKeybinding("0", func() {
-		data.Shape = 0
+		data.RightHand.Shape = 0
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("1", func() {
-		data.Shape = 1
+		data.RightHand.Shape = 1
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("2", func() {
-		data.Shape = 2
+		data.RightHand.Shape = 2
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("3", func() {
-		data.Shape = 3
+		data.RightHand.Shape = 3
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("4", func() {
-		data.Shape = 4
+		data.RightHand.Shape = 4
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("5", func() {
-		data.Shape = 5
+		data.RightHand.Shape = 5
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("6", func() {
-		data.Shape = 6
+		data.RightHand.Shape = 6
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("7", func() {
-		data.Shape = 7
+		data.RightHand.Shape = 7
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("8", func() {
-		data.Shape = 8
+		data.RightHand.Shape = 8
 		handleClick(data, ui)
 	})
 	ui.SetKeybinding("9", func() {
-		data.Shape = 9
+		data.RightHand.Shape = 9
 		handleClick(data, ui)
 	})
 
@@ -92,20 +92,20 @@ func main() {
 	}
 }
 
-func updateUI(ui tui.UI, data *models.Data) {
+func updateUI(ui tui.UI, data *models.SendData) {
 	widget := tui.NewVBox(tui.NewLabel(data.String()))
 	ui.SetWidget(widget)
 }
 
-func handleClick(data *models.Data, ui tui.UI) {
-	// data.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
+func handleClick(data *models.SendData, ui tui.UI) {
+	// data.RightHand.Time = int(time.Now().UnixNano() / int64(time.Millisecond))
 	updateUI(ui, data)
 	if err := sendPost(data); err != nil {
 		log.Error(err)
 	}
 }
 
-func sendPost(data *models.Data) error {
+func sendPost(data *models.SendData) error {
 	jsonstr, err := json.Marshal(data)
 	if err != nil {
 		return err

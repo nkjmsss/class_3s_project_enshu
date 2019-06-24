@@ -33,7 +33,7 @@ func handleGet(c echo.Context) error {
 }
 
 func handlePost(c echo.Context) error {
-	d := new(models.Data)
+	d := new(models.SendData)
 	if err := c.Bind(d); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
@@ -44,7 +44,7 @@ func handlePost(c echo.Context) error {
 		return err
 	}
 
-	log.Infof("{time: %d, x: %d, y: %d, z: %d, shape: %d}", d.Time, d.X, d.Y, d.Z, d.Shape)
+	log.Infof(d.String())
 
 	return c.JSON(http.StatusOK, d)
 }

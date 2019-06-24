@@ -4,21 +4,30 @@ import (
 	"fmt"
 )
 
-type Data struct {
-	Time  int `json:"time"`
+type hand struct {
 	X     int `json:"x"`
 	Y     int `json:"y"`
 	Z     int `json:"z"`
-	Shape int `json:"shape"` // 手の形
+	Shape int `json:"shape"`
 }
 
-func (d *Data) String() string {
+type SendData struct {
+	Time      int  `json:"time"`
+	RightHand hand `json:",inline"`
+}
+
+type ReceiveData struct {
+	Right hand `json:"right"`
+	Left  hand `json:"left"`
+}
+
+func (d *SendData) String() string {
 	return fmt.Sprintf(
 		"Time: %dms\nX: %d\nY: %d\nZ: %d\nShape: %d\n",
 		d.Time,
-		d.X,
-		d.Y,
-		d.Z,
-		d.Shape,
+		d.RightHand.X,
+		d.RightHand.Y,
+		d.RightHand.Z,
+		d.RightHand.Shape,
 	)
 }
