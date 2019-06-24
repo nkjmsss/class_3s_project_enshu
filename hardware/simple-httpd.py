@@ -6,7 +6,7 @@ class MyHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-Type', 'text/plain')
         self.end_headers()
-        self.wfile.write(b'OK')
+        self.wfile.write(200)
 
     def do_GET(self):
         self.common_response()

@@ -8,11 +8,13 @@
 #include <strsafe.h>
 #include "resource.h"
 #include "BodyBasics.h"
-#include <windows.h>
-#include <iostream>
-#include <cpprest/http_client.h>
+#include "http.h"
+#include "MyOutputDebugString.h"
 
-
+static const float c_JointThickness = 3.0f;
+static const float c_TrackedBoneThickness = 6.0f;
+static const float c_InferredBoneThickness = 1.0f;
+static const float c_HandSize = 30.0f;
 
 #ifdef _DEBUG
 #   define MyOutputDebugString( str, ... ) \
@@ -24,11 +26,6 @@
 #else
 #    define MyOutputDebugString( str, ... ) // ‹óŽÀ‘•
 #endif
-
-static const float c_JointThickness = 3.0f;
-static const float c_TrackedBoneThickness = 6.0f;
-static const float c_InferredBoneThickness = 1.0f;
-static const float c_HandSize = 30.0f;
 
 /// <summary>
 /// Entry point for the application
@@ -47,7 +44,7 @@ int APIENTRY wWinMain(
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
+	httpPost();
     CBodyBasics application;
     application.Run(hInstance, nShowCmd);
 }
@@ -381,6 +378,7 @@ void CBodyBasics::ProcessBody(INT64 nTime, int nBodyCount, IBody** ppBodies)
 							if (rightHandState == HandState_Closed) {
 								MyOutputDebugString(L"x = %lf, y = %lf, z = %lf\n", joints[23].Position.X, joints[23].Position.Y, joints[23].Position.Z);
 							}
+
                         }
                     }
                 }
