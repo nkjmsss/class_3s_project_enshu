@@ -44,7 +44,6 @@ int APIENTRY wWinMain(
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-	httpPost();
     CBodyBasics application;
     application.Run(hInstance, nShowCmd);
 }
@@ -374,11 +373,15 @@ void CBodyBasics::ProcessBody(INT64 nTime, int nBodyCount, IBody** ppBodies)
 
                             DrawHand(leftHandState, jointPoints[JointType_HandLeft]);
                             DrawHand(rightHandState, jointPoints[JointType_HandRight]);
-							//joints[23] is hand tip right
-							if (rightHandState == HandState_Closed) {
-								MyOutputDebugString(L"x = %lf, y = %lf, z = %lf\n", joints[23].Position.X, joints[23].Position.Y, joints[23].Position.Z);
-							}
-
+							// 11 is JointType_HandRight
+							// 7 is JointType_HandLeft
+							try {
+								httpPost(joints[11].Position.X, joints[11].Position.Y,
+										 joints[11].Position.Z, rightHandState,
+										 joints[7].Position.X, joints[7].Position.Y,
+										 joints[7].Position.Z, leftHandState);
+								
+							} catch (...) {/*do nothing*/ }
                         }
                     }
                 }
