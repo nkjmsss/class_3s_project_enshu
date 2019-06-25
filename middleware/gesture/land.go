@@ -1,8 +1,6 @@
 package gesture
 
 import (
-	"fmt"
-
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 )
 
@@ -62,6 +60,7 @@ func DoTakeoff() bool {
 		if v.Right.Shape == models.OPEN && v.Left.Shape == models.OPEN { // 両手がパー
 			if now.Time-v.Time < maxDuration {
 				first = v
+				break
 			}
 		}
 	}
@@ -84,35 +83,22 @@ func DoLand() bool {
 	if now.Right.Shape != models.LASSO || now.Left.Shape != models.LASSO {
 		return false
 	}
-	fmt.Println("now: ", now.Time)
 
 	var first *models.ReceiveData
-	// for _, v := range historyData {
-	// 	if v == nil {
-	// 		continue
-	// 	}
-	// 	if v.Right.Shape == models.LASSO && v.Left.Shape == models.LASSO { // 両手がチョキ
-	// 		if now.Time-v.Time < maxDuration {
-	// 			first = v
-	// 		}
-	// 	}
-	// }
-	for i := 0; i < historyData.checkLength(); i++ {
-		v := historyData[i]
+	for _, v := range historyData {
 		if v == nil {
 			continue
 		}
 		if v.Right.Shape == models.LASSO && v.Left.Shape == models.LASSO { // 両手がチョキ
 			if now.Time-v.Time < maxDuration {
 				first = v
+				break
 			}
 		}
 	}
 	if first == nil {
 		return false
 	}
-
-	fmt.Println("first: ", first.Time)
 
 	// 両手が十分量下に動いているかの判定
 	if first.Right.Y-now.Right.Y > threshold && first.Left.Y-now.Left.Y > threshold {

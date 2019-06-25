@@ -49,10 +49,10 @@ func handlePost(c echo.Context) error {
 
 	// check if gesture is done
 	gesture.Log(r)
-	// if gesture.DoTakeoff() {
-	// 	d.Command = models.TAKEOFF
-	// 	fmt.Println("take off!!!")
-	// }
+	if gesture.DoTakeoff() {
+		d.Command = models.TAKEOFF
+		fmt.Println("take off!!!")
+	}
 	if gesture.DoLand() {
 		d.Command = models.LAND
 		fmt.Println("land!!!")
