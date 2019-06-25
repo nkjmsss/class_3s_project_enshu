@@ -12,6 +12,12 @@ const (
 	LASSO
 )
 
+const (
+	_ = iota
+	TAKEOFF
+	LAND
+)
+
 type hand struct {
 	X     int `json:"x"`
 	Y     int `json:"y"`
@@ -20,13 +26,15 @@ type hand struct {
 }
 
 type SendData struct {
-	Time      int  `json:"time"`
+	Time      int  `json:"time"` // micro sec
 	RightHand hand `json:",inline"`
+	Command   int  `json:"command"` // 離陸:1, 着陸:2
 }
 
 type ReceiveData struct {
 	Right hand `json:"right"`
 	Left  hand `json:"left"`
+	Time  int  `json:"-"`
 }
 
 func (h *hand) String() string {

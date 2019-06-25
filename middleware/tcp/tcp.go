@@ -34,17 +34,19 @@ func SendTCP(data *models.SendData, uri string) error {
 
 	// POST
 	_d := &struct {
-		Time  int `json:"time"`
-		X     int `json:"x"`
-		Y     int `json:"y"`
-		Z     int `json:"z"`
-		Shape int `json:"shape"`
+		Time    int `json:"time"`
+		X       int `json:"x"`
+		Y       int `json:"y"`
+		Z       int `json:"z"`
+		Shape   int `json:"shape"`
+		Command int `json:"command"`
 	}{
-		Time:  data.Time,
-		X:     data.RightHand.X,
-		Y:     data.RightHand.Y,
-		Z:     data.RightHand.Z,
-		Shape: data.RightHand.Shape,
+		Time:    data.Time,
+		X:       data.RightHand.X,
+		Y:       data.RightHand.Y,
+		Z:       data.RightHand.Z,
+		Shape:   data.RightHand.Shape,
+		Command: data.Command,
 	}
 	body, _ := json.Marshal(_d)
 	request, _ := http.NewRequest(
