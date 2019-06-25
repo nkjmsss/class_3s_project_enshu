@@ -48,6 +48,10 @@ func DoTakeoff() bool {
 	if now == nil {
 		return false
 	}
+	if now.Right.Shape != models.OPEN || now.Left.Shape != models.OPEN {
+		return false
+	}
+
 	var first *models.ReceiveData
 	for _, v := range historyData {
 		if v == nil {
@@ -75,6 +79,10 @@ func DoLand() bool {
 	if now == nil {
 		return false
 	}
+	if now.Right.Shape != models.LASSO || now.Left.Shape != models.LASSO {
+		return false
+	}
+
 	var first *models.ReceiveData
 	for _, v := range historyData {
 		if v == nil {
