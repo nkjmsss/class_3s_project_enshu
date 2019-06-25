@@ -9,7 +9,7 @@ import (
 type history []*models.ReceiveData
 
 const (
-	maxLength   = 10000
+	maxLength   = 1000
 	threshold   = 100000  // 10%
 	maxDuration = 1000000 // 1s
 )
@@ -81,13 +81,24 @@ func DoLand() bool {
 	if now == nil {
 		return false
 	}
-	fmt.Println("now: ", now.Time)
 	if now.Right.Shape != models.LASSO || now.Left.Shape != models.LASSO {
 		return false
 	}
+	fmt.Println("now: ", now.Time)
 
 	var first *models.ReceiveData
-	for _, v := range historyData {
+	// for _, v := range historyData {
+	// 	if v == nil {
+	// 		continue
+	// 	}
+	// 	if v.Right.Shape == models.LASSO && v.Left.Shape == models.LASSO { // 両手がチョキ
+	// 		if now.Time-v.Time < maxDuration {
+	// 			first = v
+	// 		}
+	// 	}
+	// }
+	for i := 0; i < historyData.checkLength(); i++ {
+		v := historyData[i]
 		if v == nil {
 			continue
 		}
