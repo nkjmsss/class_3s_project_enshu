@@ -1,11 +1,9 @@
 package tcp
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net"
-	"net/http"
 	"time"
 
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
@@ -49,12 +47,15 @@ func SendTCP(data *models.SendData, uri string) error {
 		Command: data.Command,
 	}
 	body, _ := json.Marshal(_d)
-	request, _ := http.NewRequest(
-		"POST",
-		fmt.Sprintf("http://%s:%d", URI, PORT),
-		bytes.NewReader(body),
-	)
-	if err := request.Write(conn); err != nil {
+	// request, _ := http.NewRequest(
+	// 	"POST",
+	// 	fmt.Sprintf("http://%s:%d", URI, PORT),
+	// 	bytes.NewReader(body),
+	// )
+	// if err := request.Write(conn); err != nil {
+	// 	return err
+	// }
+	if _, err := conn.Write(body); err != nil {
 		return err
 	}
 
