@@ -1,6 +1,8 @@
 package gesture
 
 import (
+	"fmt"
+
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 )
 
@@ -79,6 +81,7 @@ func DoLand() bool {
 	if now == nil {
 		return false
 	}
+	fmt.Println("now: ", *now)
 	if now.Right.Shape != models.LASSO || now.Left.Shape != models.LASSO {
 		return false
 	}
@@ -97,6 +100,8 @@ func DoLand() bool {
 	if first == nil {
 		return false
 	}
+
+	fmt.Println("first: ", *first)
 
 	// 両手が十分量下に動いているかの判定
 	if first.Right.Y-now.Right.Y > threshold && first.Left.Y-now.Left.Y > threshold {
