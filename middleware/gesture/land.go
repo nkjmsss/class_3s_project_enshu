@@ -9,7 +9,7 @@ import (
 type history []*models.ReceiveData
 
 const (
-	maxLength   = 100
+	maxLength   = 10000
 	threshold   = 100000  // 10%
 	maxDuration = 1000000 // 1s
 )
@@ -81,7 +81,7 @@ func DoLand() bool {
 	if now == nil {
 		return false
 	}
-	fmt.Println("now: ", *now)
+	fmt.Println("now: ", now.Time)
 	if now.Right.Shape != models.LASSO || now.Left.Shape != models.LASSO {
 		return false
 	}
@@ -101,7 +101,7 @@ func DoLand() bool {
 		return false
 	}
 
-	fmt.Println("first: ", *first)
+	fmt.Println("first: ", first.Time)
 
 	// 両手が十分量下に動いているかの判定
 	if first.Right.Y-now.Right.Y > threshold && first.Left.Y-now.Left.Y > threshold {
