@@ -8,6 +8,7 @@ services:
       - 1323:1323
     environment:
       GO111MODULE: "on"
+    # network_mode: host
     tty: true
     restart: always
     command: realize start
