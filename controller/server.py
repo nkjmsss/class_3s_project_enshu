@@ -44,28 +44,31 @@ def main():
                 #離陸するならtakeffland = 6, 着陸するならtakeoffland = 7
                 takeoffland = -1
 
+                try:
+                    tello.sendto('command'.encode(encoding="utf-8"), tello_address)
+                    print("OK")
+                except:
+                    print("No")
+                    pass
+
                 if recieve_message['command'] == 1:
                     takeoffland = 6
                 elif recieve_message['command'] == 2:
                     takeoffland = 7
+
+                if takeoffland > 0:
+                    sent = tello.sendto(move[takeoffland].encode("utf-8"),tello_address)
+                    print(move[takeoffland]);
+
             
                 #toは手の動きの相対的な変化を記録する
                 to = [-1,-1,-1,-1]                       
                 to[0] =  recieve_message['x']
                 to[1] =  recieve_message['y']
                 to[2] =  recieve_message['z']
-                to[3] =  recieve_message['time']
-
-                try:
-                    sent = tello.sendto('command'.encode(encoding="utf-8"), tello_address)
-                    print("OK")
-                except:
-                    print("No")
-                    pass
-
-            
+                to[3] =  recieve_message['time']            
                 #手がグーなら移動
-                if recieve_message['shape'] == 0: 
+                if recieve_message['shape'] == 3: 
                     #time,x,y,z各々相対的な変化を記録
                     time = to[3]-fr[3]
                     x = max(min(to[0]-fr[0],500),-500)
@@ -111,11 +114,6 @@ def main():
                         up_down = 4
                     else:
                         up_down = 5
-
-                    #離着陸
-                    if takeoffland > 0:
-                        sent = tello.sendto(move[takeoffland].encode("utf-8"),tello_address)
-                        print(move[takeoffland]);
 
                     #向きを変える 
                     sent = tello.sendto('speed 100'.encode("utf-8"),tello_address)
