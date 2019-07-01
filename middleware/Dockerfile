@@ -6,8 +6,10 @@ RUN apk upgrade && \
     apk add --no-cache \
       gcc \
       libc-dev \
-      git
+      git \
+      mplayer
 COPY go.mod .
 COPY go.sum .
 RUN go mod download && \
     go get -u github.com/oxequa/realize
+EXPOSE 1323 3000 8890 11111
