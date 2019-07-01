@@ -13,6 +13,8 @@ int value;
 int threshold=200;
 int httpCode;
 String requestBody;
+int i=0;
+bool state=true;
 
 void setup() {
   Serial.begin(115200);
@@ -42,9 +44,16 @@ void setup() {
   sensor.startContinuous(50);
 
   pinMode(15,OUTPUT);
+  pinMode(17,OUTPUT);
 }
 
 void loop() {
+  digitalWrite(17,state);
+  i++;
+  if(i>10){
+      state = !state;
+      i=0;
+  }
   HTTPClient http;
   http.begin(URL);
   value = sensor.read();
@@ -58,11 +67,5 @@ void loop() {
     Serial.print("Response Body: ");
     Serial.println(body);
   }
-  if(body.toInt()<threshold){
-    digitalWrite(15,HIGH);
-    }else{
-    digitalWrite(15,LOW);
-    }
-  
   delay(500);
 }

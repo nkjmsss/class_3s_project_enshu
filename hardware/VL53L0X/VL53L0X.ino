@@ -1,9 +1,9 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Wire.h>
-#include <VL53L1X.h>
+#include <VL53L0X.h>
 
-VL53L1X sensor;
+VL53L0X sensor;
 
 const char SSID[] = "aterm-602fae-g";
 const char PASSWORD[] = "48e04d7a669be";
@@ -31,23 +31,28 @@ void setup() {
   Wire.begin();
   Wire.setClock(400000); // use 400 kHz I2C
 
+  sensor.init();
   sensor.setTimeout(500);
   if (!sensor.init())
   {
     Serial.println("Failed to detect and initialize sensor!");
     while (1);
   }
-  sensor.setDistanceMode(VL53L1X::Long);
+  
   sensor.setMeasurementTimingBudget(50000);
-  sensor.startContinuous(50);
+  sensor.startContinuous();
 
-  pinMode(15,OUTPUT);
+  pinMode(26,OUTPUT);
+
+  digitalWrite(26,HIGH);
 }
 
 void loop() {
+  digitalWrite(26,HIGH);
+  
   HTTPClient http;
   http.begin(URL);
-  value = sensor.read();
+  value = sensor.readRangeContinuousMillimeters();
   requestBody = (String)value;
   httpCode = http.POST(requestBody);
   
@@ -58,11 +63,5 @@ void loop() {
     Serial.print("Response Body: ");
     Serial.println(body);
   }
-  if(body.toInt()<threshold){
-    digitalWrite(15,HIGH);
-    }else{
-    digitalWrite(15,LOW);
-    }
-  
   delay(500);
 }

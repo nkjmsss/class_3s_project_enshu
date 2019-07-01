@@ -1,6 +1,5 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-
 class MyHandler(SimpleHTTPRequestHandler):
     def __init__(self,request, client_address, server, directory=None, val=0):
         self.val = val
