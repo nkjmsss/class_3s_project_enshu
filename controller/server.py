@@ -30,16 +30,11 @@ def main():
 
             # 要求がいたら受け付け
             client, addr = server.accept()
-            print(addr)
-            print(type(addr))
-            print(type(client))
             
             #データ構造は辞書 ex. {"Time":1560232730357,"X":0,"Y":2,"Z":0,"Shape":0}
-            recieve_message_json = client.recv(4096).decode()
             
-            print(recieve_message_json)
-            print(type(recieve_message_json))
             try:
+                recieve_message_json = client.recv(4096).decode()
                 recieve_message = json.loads(recieve_message_json)
                 #recieve_message = json.loads(recieve_message_json[94:])
                 #print(type(recieve_message))
@@ -52,7 +47,7 @@ def main():
                 if recieve_message['command'] == 1:
                     takeoffland = 6
                 elif recieve_message['command'] == 2:
-                    takeoff = 7
+                    takeoffland = 7
             
                 #toは手の動きの相対的な変化を記録する
                 to = [-1,-1,-1,-1]                       
@@ -60,6 +55,14 @@ def main():
                 to[1] =  recieve_message['y']
                 to[2] =  recieve_message['z']
                 to[3] =  recieve_message['time']
+
+                try:
+                    sent = self.sock.sendto('command'.encode(encoding="utf-8"), self.tello)
+                    print("OK")
+                except:
+                    print("No")
+                    pass
+
             
                 #手がグーなら移動
                 if recieve_message['shape'] == 0: 
@@ -108,9 +111,7 @@ def main():
                         up_down = 4
                     else:
                         up_down = 5
-                
-                
-                    tello.sendto('command'.encode('utf-8'),tello_address)
+
                     #離着陸
                     if takeoffland > 0:
                         sent = tello.sendto(move[takeoffland].encode("utf-8"),tello_address)
@@ -131,7 +132,7 @@ def main():
                     print(move[3],end = ' ')
                     print(move[up_down])
                     for i in range(0,forwardnum):
-                        sent = tello.sendto(move[3].encode("utf-8"),tello_address)
+                        recieve_message_json = client.recv(4096).decode()
                         if (updownnum):
                             sent = tello.sendto(move[up_down].encode("utf-8"),tello_address)
                             updownnum -= 1
