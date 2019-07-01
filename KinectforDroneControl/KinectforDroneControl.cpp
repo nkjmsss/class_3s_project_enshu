@@ -373,13 +373,16 @@ void CBodyBasics::ProcessBody(INT64 nTime, int nBodyCount, IBody** ppBodies)
 
                             DrawHand(leftHandState, jointPoints[JointType_HandLeft]);
                             DrawHand(rightHandState, jointPoints[JointType_HandRight]);
-							// 11 is JointType_HandRight
-							// 7 is JointType_HandLeft
+							
 							try {
+								// 11 is JointType_HandRight
+								// 7 is JointType_HandLeft
 								httpPost(joints[11].Position.X, joints[11].Position.Y,
 										 joints[11].Position.Z, rightHandState,
 										 joints[7].Position.X, joints[7].Position.Y,
 										 joints[7].Position.Z, leftHandState);
+
+								//MyOutputDebugString(L"right(%lf, %lf, %lf, %d)\nleft(%lf, %lf, %lf, %d)\n")
 								
 							} catch (...) {/*do nothing*/ }
                         }
