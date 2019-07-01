@@ -57,7 +57,7 @@ def main():
                 to[3] =  recieve_message['time']
 
                 try:
-                    sent = self.sock.sendto('command'.encode(encoding="utf-8"), self.tello)
+                    sent = tello.sendto('command'.encode(encoding="utf-8"), tello_address)
                     print("OK")
                 except:
                     print("No")
