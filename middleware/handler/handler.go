@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -34,11 +33,11 @@ func HandlePost(c echo.Context) error {
 	gesture.Log(r)
 	if gesture.DoTakeoff() {
 		d.Command = models.TAKEOFF
-		fmt.Println("take off!!!")
+		// fmt.Println("take off!!!")
 	}
 	if gesture.DoLand() {
 		d.Command = models.LAND
-		fmt.Println("land!!!")
+		// fmt.Println("land!!!")
 	}
 
 	// log.Info("\n" + d.RightHand.String())
