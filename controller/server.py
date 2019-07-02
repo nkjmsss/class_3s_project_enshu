@@ -23,11 +23,6 @@ def main():
         'takeoff', 'land'
     ]
 
-    # send command to tello
-    def sendTello(message):
-        tello.sendto(message.encode(encoding="utf-8"), tello_address)
-        print(message)
-
     try:
         # 待ち受けポートに割り当て
         tello.bind(locaddr)
@@ -43,6 +38,12 @@ def main():
             #データ構造は辞書 ex. {"Time":1560232730357,"X":0,"Y":2,"Z":0,"Shape":0}
 
             try:
+                # send command to tello
+                def sendTello(message):
+                    tello.sendto(message.encode(encoding="utf-8"),
+                                 tello_address)
+                    print(message)
+
                 recieve_message_json = client.recv(4096).decode()
                 recieve_message = json.loads(recieve_message_json)
                 #recieve_message = json.loads(recieve_message_json[94:])
