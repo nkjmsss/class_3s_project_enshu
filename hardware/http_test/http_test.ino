@@ -48,10 +48,8 @@ void loop() {
   HTTPClient http;
   http.begin(URL);
   value = sensor.read();
-  if(value<threshold){
-    requestBody = (String)value;
-    httpCode = http.POST(requestBody);
-  }
+  requestBody = (String)value;
+  httpCode = http.POST(requestBody);
   
   Serial.printf("Response: %d", httpCode);
   Serial.println();

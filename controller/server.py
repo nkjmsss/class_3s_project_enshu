@@ -6,6 +6,7 @@ import numpy as np
 #kinectから受け取ったデータを保存
 # [x,y,z,time]
 fr = [0.0,0.0,0.0,0.0] #追加
+
     
 def main():
     # 待ち受け用のソケットオブジェクト
@@ -17,7 +18,7 @@ def main():
     tello = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   
     tello_address = ('192.168.10.1', 8889) 
 
-    move = ['speed', 'cw','ccw','forward 21','up 21','down 21','takeoff','land']
+    move = ['speed', 'cw','ccw','forward','back','left','right','up','down','takeoff','land']
 
     try:
         # 待ち受けポートに割り当て
@@ -46,15 +47,14 @@ def main():
 
                 try:
                     tello.sendto('command'.encode(encoding="utf-8"), tello_address)
-                    print("OK")
                 except:
-                    print("No")
                     pass
+            
 
                 if recieve_message['command'] == 1:
-                    takeoffland = 6
+                    takeoffland = 9
                 elif recieve_message['command'] == 2:
-                    takeoffland = 7
+                    takeoffland = 10
 
                 if takeoffland > 0:
                     sent = tello.sendto(move[takeoffland].encode("utf-8"),tello_address)
@@ -70,76 +70,35 @@ def main():
                 #手がグーなら移動
                 if recieve_message['shape'] == 3: 
                     #time,x,y,z各々相対的な変化を記録
-                    time = to[3]-fr[3]
-                    x = max(min(to[0]-fr[0],500),-500)
-                    y = max(min(to[1]-fr[1],500),-500)
-                    z = max(min(to[2]-fr[2],500),-500)
-                    #xy平面内を直線で移動する距離
-                    forward = int(np.sqrt(x*x+y*y))
-                    #z方向に移動する距離
-                    updown = abs(z)
-                    #移動速度
-                    volb = int((forward+updown)/(time+2))
-                    vol = max(min(volb,100),10)
-                
-                    #回転角度
-                    theta = ''
-                    #時計回りなら1,反時計回りなら2
-                    rotate = -1
-
-                    #theta,rotateを決定
-                    if x >= 0: 
-                        if y==0:
-                            theta = 90
+                    cmd = -1
+                    dis = -1
+                    dx = to[0]-fr[0]
+                    dy = to[1]-fr[1]
+                    dz = to[2]-fr[2]
+                    maxd = max(max(abs(dx),abs(dy)),abs(dz))
+                    if maxd == abs(dx):
+                        if dx >= 0:
+                            cmd = 6
                         else:
-                            theta = int(np.arctan(x/y)*180/np.pi)
-                        rotate = 1
-                    else:
-                        if y==0:
-                            theta = 90
+                            cmd = 5
+                        dis = abs(dx)
+                    elif maxd == abs(dy):
+                        if dy >= 0:
+                            cmd = 7
                         else:
-                            theta = int(np.arctan(x/y)*180/np.pi)
-                        rotate = 2
-
-                
-                    #最小で20cmまでしか移動できないので、前方向、上下方向の移動する回数を求めている
-                    forwardnum = int(forward+30/21)
-                    updownnum = int(updown+30/21)
-
-                    #上昇するなら4,下降するなら5
-                    up_down = -1
-
-                    #updownを求める
-                    if z >= 0:
-                        up_down = 4
+                            cmd = 8
+                        dis = abs(dy)
                     else:
-                        up_down = 5
-
-                    #向きを変える 
+                        if dz >= 0:
+                            cmd = 4
+                        else:
+                            cmd = 3
+                        dis = abs(dz)
                     sent = tello.sendto('speed 100'.encode("utf-8"),tello_address)
-                    sent = tello.sendto((move[rotate]+' '+str(theta)).encode("utf-8"),tello_address)
-                    print(move[rotate],end = ' ')
-                    print(theta)
-                
-                    #スピードを設定
-                    sent = tello.sendto(('speed '+str(vol)).encode("utf-8"),tello_address)
-                    print(move[0],end = ' ')
-                    print(vol)
-
-                    #移動
-                    print(move[3],end = ' ')
-                    print(move[up_down])
-                    for i in range(0,forwardnum):
-                        recieve_message_json = client.recv(4096).decode()
-                        if (updownnum):
-                            sent = tello.sendto(move[up_down].encode("utf-8"),tello_address)
-                            updownnum -= 1
-                    print('-----')
-                
-                
-            
+                    sent = tello.sendto(move[cmd]+' '+str(dis).encode("utf-8"),tello_address)
+                    print(move[cmd])
+                    print(dis)
                 #frの値を更新
-
                 fr[0] = to[0]
                 fr[1] = to[1]
                 fr[2] = to[2]
