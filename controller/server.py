@@ -75,27 +75,48 @@ def main():
                     dx = to[0]-fr[0]
                     dy = to[1]-fr[1]
                     dz = to[2]-fr[2]
-                    maxd = max(max(abs(dx),abs(dy)),abs(dz))
-                    if maxd == abs(dx):
-                        if dx >= 0:
-                            cmd = 6
+                    if abs(dx) >= abs(dy):
+                        if abs(dy) >= abs(dz):
+                            if dx >= 0:
+                                cmd = 6
+                            else:
+                                cmd = 5
+                            dis = abs(dx)
                         else:
-                            cmd = 5
-                        dis = abs(dx)
-                    elif maxd == abs(dy):
-                        if dy >= 0:
-                            cmd = 7
-                        else:
-                            cmd = 8
-                        dis = abs(dy)
+                            if abs(dx) >= abs(dz):
+                                if dx >= 0:
+                                    cmd = 6
+                                else:
+                                    cmd = 5
+                                dis = abs(dx)
+                            else:
+                                if dz >= 0:
+                                    cmd = 4
+                                else:
+                                    cmd = 3
+                                dis = abs(dz)
                     else:
-                        if dz >= 0:
-                            cmd = 4
+                        if abs(dx) >= abs(dz):
+                            if dy >= 0:
+                                cmd = 7
+                            else:
+                                cmd = 8
+                            dis = abs(dy)
                         else:
-                            cmd = 3
-                        dis = abs(dz)
+                            if abs(dy) >= abs(dz):
+                                if dy >= 0:
+                                    cmd = 7
+                                else:
+                                    cmd = 8
+                                dis = abs(dy)
+                            else:
+                                if dz >= 0:
+                                    cmd = 4
+                                else:
+                                    cmd = 3
+                                dis = abs(dz)
                     sent = tello.sendto('speed 100'.encode("utf-8"),tello_address)
-                    sent = tello.sendto(move[cmd]+' '+str(dis).encode("utf-8"),tello_address)
+                    sent = tello.sendto((move[cmd]+' '+str(dis)).encode("utf-8"),tello_address)
                     print(move[cmd])
                     print(dis)
                 #frの値を更新
