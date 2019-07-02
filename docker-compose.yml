@@ -18,6 +18,6 @@ services:
       - ./controller:/src
     tty: true
     restart: always
-    expose:
-      - 1323
+    ports:
+      - 1324:1324
     command: python server.py

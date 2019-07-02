@@ -11,7 +11,7 @@ import (
 
 const (
 	DEFAULT_URI = "controller"
-	PORT        = 1323
+	PORT        = 1324
 )
 
 func SendTCP(data *models.SendData, uri string) error {
@@ -58,6 +58,9 @@ func SendTCP(data *models.SendData, uri string) error {
 	if _, err := conn.Write(body); err != nil {
 		return err
 	}
+
+	// response, _ := bufio.NewReader(conn).ReadString('\n')
+	// fmt.Println(response)
 
 	return nil
 }

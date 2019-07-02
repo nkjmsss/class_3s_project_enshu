@@ -26,11 +26,11 @@ def main():
     try:
         # 待ち受けポートに割り当て
         tello.bind(locaddr)
-        server.bind(('0.0.0.0', 1323))
+        server.bind(('0.0.0.0', 1324))
+        # 待ち受け開始
+        server.listen(5)
 
         while True:
-            # 待ち受け開始
-            server.listen(5)
 
             # 要求がいたら受け付け
             client, addr = server.accept()
@@ -39,10 +39,12 @@ def main():
 
             try:
                 # send command to tello
+                # also, send to client
                 def sendTello(message):
                     tello.sendto(message.encode(encoding="utf-8"),
                                  tello_address)
                     print(message)
+                    client.sendall((message + '\n').encode('utf-8'))
 
                 recieve_message_json = client.recv(4096).decode()
                 recieve_message = json.loads(recieve_message_json)
@@ -133,12 +135,14 @@ def main():
                 fr[3] = to[3]  #追加↑
 
                 # client.send(b"I am socket server...\n")
-                client.close()
+                # client.close()
             except Exception as e:
                 print(e)
     except KeyboardInterrupt:
+        print('keyboard interrupt')
         server.close()
     finally:
+        print('finish')
         server.close()
 
 
