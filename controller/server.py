@@ -40,7 +40,7 @@ def main():
                 #recieve_message = json.loads(recieve_message_json[94:])
                 #print(type(recieve_message))
 
-                print('{}'.format(recieve_message))  # 返答
+                #print('{}'.format(recieve_message))  # 返答
             
                 #離陸するならtakeffland = 6, 着陸するならtakeoffland = 7
                 takeoffland = -1
@@ -115,6 +115,9 @@ def main():
                                 else:
                                     cmd = 3
                                 dis = abs(dz)
+                    dis = int(dis * 0.01)
+                    dis = min(500,dis)
+                    dis = max(20,dis)
                     sent = tello.sendto('speed 100'.encode("utf-8"),tello_address)
                     sent = tello.sendto((move[cmd]+' '+str(dis)).encode("utf-8"),tello_address)
                     print(move[cmd])
