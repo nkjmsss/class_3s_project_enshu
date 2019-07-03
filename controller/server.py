@@ -41,8 +41,8 @@ def main():
                 # send command to tello
                 # also, send to client
                 def sendTello(message):
-                    tello.sendto(message.encode(encoding="utf-8"),
-                                 tello_address)
+                    tello.sendto('command'.encode(encoding="utf-8"), tello_address)
+                    tello.sendto(message.encode(encoding="utf-8"), tello_address)
                     print(message)
                     client.sendall((message + '\n').encode('utf-8'))
 
@@ -51,13 +51,8 @@ def main():
                 #print(type(recieve_message))
 
                 #print('{}'.format(recieve_message))  # 返答
-            
-                takeoffland = -1
 
-                try:
-                    sendTello('command')
-                except:
-                    pass
+                takeoffland = -1
 
                 if recieve_message['command'] == 1:
                     takeoffland = 9
