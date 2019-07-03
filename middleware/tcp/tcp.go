@@ -1,10 +1,14 @@
 package tcp
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"net"
+	"os"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 )
@@ -59,8 +63,15 @@ func SendTCP(data *models.SendData, uri string) error {
 		return err
 	}
 
-	// response, _ := bufio.NewReader(conn).ReadString('\n')
-	// fmt.Println(response)
+	// output command log
+	logfile, err := os.OpenFile("./logs/command.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		panic("cannnot open ./logs/command.log:" + err.Error())
+	}
+	log.SetOutput(logfile)
+
+	response, _ := bufio.NewReader(conn).ReadString('\n')
+	log.Info(response)
 
 	return nil
 }
