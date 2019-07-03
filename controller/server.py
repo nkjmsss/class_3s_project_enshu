@@ -81,13 +81,10 @@ def main():
                     dx = to[0] - fr[0]
                     dy = to[1] - fr[1]
                     dz = to[2] - fr[2]
-                    if abs(dx) >= abs(dy):
-                        if abs(dy) >= abs(dz):
-                            if dx >= 0:
-                                cmd = 6
-                            else:
-                                cmd = 5
-                            dis = abs(dx)
+                    maxd = max(max(abs(dx),abs(dy)),abs(dz))
+                    if maxd == abs(dx):
+                        if dx >= 0:
+                            cmd = 6
                         else:
                             cmd = 5
                         dis = abs(dx)
