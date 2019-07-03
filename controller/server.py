@@ -37,12 +37,10 @@ def main():
             try:
                 recieve_message_json = client.recv(4096).decode()
                 recieve_message = json.loads(recieve_message_json)
-                #recieve_message = json.loads(recieve_message_json[94:])
                 #print(type(recieve_message))
 
                 #print('{}'.format(recieve_message))  # 返答
             
-                #離陸するならtakeffland = 6, 着陸するならtakeoffland = 7
                 takeoffland = -1
 
                 try:
@@ -57,7 +55,7 @@ def main():
                     takeoffland = 10
 
                 if takeoffland > 0:
-                    sent = tello.sendto(move[takeoffland].encode("utf-8"),tello_address)
+                    tello.sendto(move[takeoffland].encode("utf-8"),tello_address)
                     print(move[takeoffland]);
 
             
@@ -75,51 +73,32 @@ def main():
                     dx = to[0]-fr[0]
                     dy = to[1]-fr[1]
                     dz = to[2]-fr[2]
-                    if abs(dx) >= abs(dy):
-                        if abs(dy) >= abs(dz):
-                            if dx >= 0:
-                                cmd = 6
-                            else:
-                                cmd = 5
-                            dis = abs(dx)
+                    maxd = max(max(abs(dx),abs(dy)),abs(dz))
+                    if maxd == abs(dx):
+                        if dx >= 0:
+                            cmd = 6
                         else:
-                            if abs(dx) >= abs(dz):
-                                if dx >= 0:
-                                    cmd = 6
-                                else:
-                                    cmd = 5
-                                dis = abs(dx)
-                            else:
-                                if dz >= 0:
-                                    cmd = 4
-                                else:
-                                    cmd = 3
-                                dis = abs(dz)
+                            cmd = 5
+                        dis = abs(dx)
+                    elif maxd == abs(dy):
+                        if dy >= 0:
+                            cmd = 7
+                        else:
+                            cmd = 8
+                        dis = abs(dy)
                     else:
-                        if abs(dx) >= abs(dz):
-                            if dy >= 0:
-                                cmd = 7
-                            else:
-                                cmd = 8
-                            dis = abs(dy)
+                        if dz >= 0:
+                            cmd = 4
                         else:
-                            if abs(dy) >= abs(dz):
-                                if dy >= 0:
-                                    cmd = 7
-                                else:
-                                    cmd = 8
-                                dis = abs(dy)
-                            else:
-                                if dz >= 0:
-                                    cmd = 4
-                                else:
-                                    cmd = 3
-                                dis = abs(dz)
+                            cmd = 3
+                        dis = abs(dz)
                     dis = int(dis * 0.01)
-                    dis = min(500,dis)
+                    dis = min(100
+                    
+                    ,dis)
                     dis = max(20,dis)
-                    sent = tello.sendto('speed 100'.encode("utf-8"),tello_address)
-                    sent = tello.sendto((move[cmd]+' '+str(dis)).encode("utf-8"),tello_address)
+                    tello.sendto('speed 100'.encode("utf-8"),tello_address)
+                    tello.sendto((move[cmd]+' '+str(dis)).encode("utf-8"),tello_address)
                     print(move[cmd])
                     print(dis)
                 #frの値を更新
