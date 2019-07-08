@@ -81,6 +81,7 @@ def main():
                     dx = to[0] - fr[0]
                     dy = to[1] - fr[1]
                     dz = to[2] - fr[2]
+                    dt = to[3] - fr[3]
                     maxd = max(max(abs(dx),abs(dy)),abs(dz))
                     if maxd == abs(dx):
                         if dx >= 0:
@@ -89,7 +90,7 @@ def main():
                             cmd = 5
                         dis = abs(dx)
                     elif maxd == abs(dy):
-                        if dy >= 0:
+                        if dy >=0:
                             cmd = 7
                         else:
                             cmd = 8
@@ -100,10 +101,13 @@ def main():
                         else:
                             cmd = 3
                         dis = abs(dz)
+                    vol = int(((dis*0.01)/dt)*2)
+                    vol = min(100,vol)
+                    vol = max(1,vol)
                     dis = int(dis * 0.01)
                     dis = min(100, dis)
                     dis = max(20, dis)
-                    sendTello('speed 100')
+                    sendTello('speed'+' '+str(vol))
                     sendTello(move[cmd] + ' ' + str(dis))
                 #frの値を更新
                 fr[0] = to[0]
