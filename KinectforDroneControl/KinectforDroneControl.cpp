@@ -382,12 +382,12 @@ void CBodyBasics::ProcessBody(INT64 nTime, int nBodyCount, IBody** ppBodies)
 										 joints[7].Position.X, joints[7].Position.Y,
 										 joints[7].Position.Z, leftHandState);
 
-								MyOutputDebugString(L"right(%lf, %lf, %lf, %d)\nleft(%lf, %lf, %lf, %d)\n",
+								/*MyOutputDebugString(L"right(%lf, %lf, %lf, %d)\nleft(%lf, %lf, %lf, %d)\n",
 													joints[11].Position.X, joints[11].Position.Y,
 													joints[11].Position.Z, rightHandState,
 													joints[7].Position.X, joints[7].Position.Y,
 													joints[7].Position.Z, leftHandState)
-								
+								*/
 							} catch (...) {/*do nothing*/ }
                         }
                     }

@@ -1,5 +1,2 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (BodyBasics-D2D.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  http.cpp
-  KinectforDroneControl.cpp
-  Generating Code...
   KinectforDroneControl.vcxproj -> C:\Users\MEIP-users\Desktop\project_enshu\class_3s_project_enshu\KinectforDroneControl\x64\Debug\KinectforDroneControl.exe

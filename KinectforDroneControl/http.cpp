@@ -47,9 +47,11 @@ pplx::task<int> Post(int rx, int ry, int rz, int rshape,
 	{
 		if (response.status_code() == status_codes::OK)
 		{
+			MyOutputDebugString(L"%d\n", 200);
 			return 200;
 		}
 		else {
+			MyOutputDebugString(L"%d\n", 500);
 			return 500;
 		}
 		//if (response.status_code() == status_codes::OK)
@@ -81,8 +83,10 @@ void httpPost(double rx, double ry, double rz, int rshape,
 		int _lx = lx * SCALING_NUMBER;
 		int _ly = ly * SCALING_NUMBER;
 		int _lz = lz * SCALING_NUMBER;
-		auto result = Post(_rx, _ry, _rz, rshape, _lx, _ly, _lz, lshape).wait();
-		MyOutputDebugString(L"Result=%d\n", result);
+		//auto result = Post(_rx, _ry, _rz, rshape, _lx, _ly, _lz, lshape).wait();
+		auto result = Post(_rx, _ry, _rz, rshape, _lx, _ly, _lz, lshape);
+		MyOutputDebugString(L"posted\n");
+		//MyOutputDebugString(L"Result=%d\n", result);
 	}
 	catch (const std::exception& e)
 	{
