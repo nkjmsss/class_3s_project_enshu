@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -24,14 +23,27 @@ func SendTCP(data *models.SendData, uri string) error {
 		URI = uri
 	}
 
-	d := net.Dialer{
-		Timeout: 10 * time.Millisecond,
-	}
+	// d := net.Dialer{
+	// 	Timeout: 10 * time.Millisecond,
+	// }
 
-	conn, err := d.Dial("tcp", fmt.Sprintf("%s:%d", URI, PORT))
+	// conn, err := d.Dial("tcp", fmt.Sprintf("%s:%d", URI, PORT))
+	// if err != nil {
+	// 	return err
+	// }
+	// defer conn.Close()
+
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", fmt.Sprintf("%s:%d", URI, PORT))
 	if err != nil {
-		return err
+		fmt.Println("net resolve TCP Addr error ")
+		os.Exit(1)
 	}
+	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	if err != nil {
+		fmt.Println("net dial tcp error ")
+		os.Exit(1)
+	}
+	conn.SetKeepAlive(true)
 	defer conn.Close()
 
 	// POST
@@ -71,7 +83,9 @@ func SendTCP(data *models.SendData, uri string) error {
 	log.SetOutput(logfile)
 
 	response, _ := bufio.NewReader(conn).ReadString('\n')
-	log.Info(response)
+	if response != "" {
+		log.Info(response)
+	}
 
 	return nil
 }
