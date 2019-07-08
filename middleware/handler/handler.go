@@ -42,9 +42,13 @@ func HandlePost(c echo.Context) error {
 
 	// log.Info("\n" + d.RightHand.String())
 
-	if err := tcp.SendTCP(d, "controller"); err != nil {
+	if err := sendTCP(d); err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusOK, d)
+}
+
+func sendTCP(d *models.SendData) error {
+	return tcp.SendTCP(d, "controller")
 }

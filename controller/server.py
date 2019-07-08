@@ -29,6 +29,7 @@ def main():
         server.bind(('0.0.0.0', 1324))
         # 待ち受け開始
         server.listen(5)
+        print('Server is listening on controller:1324')
 
         while True:
 
@@ -108,10 +109,10 @@ def main():
                 fr[0] = to[0]
                 fr[1] = to[1]
                 fr[2] = to[2]
-                fr[3] = to[3]  #追加↑
+                fr[3] = to[3]
 
                 # client.send(b"I am socket server...\n")
-                # client.close()
+                client.close()
             except Exception as e:
                 print(e)
     except KeyboardInterrupt:
