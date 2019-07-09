@@ -50,6 +50,7 @@ github.com/mitchellh/go-wordwrap v1.0.0 h1:6GlHJ/LTGMrIJbwgdqdl2eEH8o+Exx/0m8ir9
 github.com/mitchellh/go-wordwrap v1.0.0/go.mod h1:ZXFpozHsX6DPmq2I0TCekCxypsnAUbP2oI0UX1GXzOo=
 github.com/nkjmsss/class_3s_project_enshu v0.0.0-20190625060616-b95b4c55d70b h1:QE35gO94RTVltb9KSZRd6uwAVlkCVyjvGtDbY2kP21M=
 github.com/nkjmsss/class_3s_project_enshu v0.0.0-20190625092732-792c82ec8286 h1:xylniWw2zq1iP7CwA8n2cWtOpjVW3o9y6RVG0WrtPoA=
+github.com/nkjmsss/class_3s_project_enshu v0.0.0-20190708073404-aff7915097f8 h1:ZA7fH82PqDo0dOKlrAQIvtJaSIxgVUB6IarytpL0adE=
 github.com/nkjmsss/class_3s_project_enshu/middleware/gobot v0.0.0-20190625092732-792c82ec8286 h1:ukiU9hMhW8+WDaNf7RKeBTBzCxHGUIxV/VIokUYJc40=
 github.com/nkjmsss/class_3s_project_enshu/middleware/gobot v0.0.0-20190625092732-792c82ec8286/go.mod h1:OWW0QGqz+Wg4YqJCilOvh7M8/+G+eERLx146g1S34i4=
 github.com/oxequa/interact v0.0.0-20171114182912-f8fb5795b5d7 h1:VhMyYEArWL80OqmBloufn/ABe355btZ3Md+EFFrv+zE=
