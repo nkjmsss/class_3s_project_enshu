@@ -30,6 +30,7 @@ def main():
         # 待ち受け開始
         server.listen(5)
         print('Server is listening on controller:1324')
+        ready = 0
 
         while True:
 
@@ -70,46 +71,52 @@ def main():
                 to[2] = recieve_message['z']
                 to[3] = recieve_message['time']
                 #手がグーなら移動
+                if recieve_message['shape'] != 3:
+                    ready = 0
                 if recieve_message['shape'] == 3:
                     #time,x,y,z各々相対的な変化を記録
                     cmd = -1
                     dis = -1
-                    dx = to[0] - fr[0]
-                    dy = to[1] - fr[1]
-                    dz = to[2] - fr[2]
-                    dt = to[3] - fr[3]
-                    maxd = max(max(abs(dx),abs(dy)),abs(dz))
-                    if maxd == abs(dx):
-                        if dx >= 0:
-                            cmd = 6
+                    if ready:
+                        dx = to[0] - fr[0]
+                        dy = to[1] - fr[1]
+                        dz = to[2] - fr[2]
+                        dt = to[3] - fr[3]
+                        maxd = max(max(abs(dx),abs(dy)),abs(dz))
+                        if maxd == abs(dx):
+                            if dx >= 0:
+                                cmd = 6
+                            else:
+                                cmd = 5
+                            dis = abs(dx)
+                        elif maxd == abs(dy):
+                            if dy >=0:
+                                cmd = 7
+                            else:
+                                cmd = 8
+                            dis = abs(dy)
                         else:
-                            cmd = 5
-                        dis = abs(dx)
-                    elif maxd == abs(dy):
-                        if dy >=0:
-                            cmd = 7
-                        else:
-                            cmd = 8
-                        dis = abs(dy)
+                            if dz >= 0:
+                                cmd = 4
+                            else:
+                                cmd = 3
+                            dis = abs(dz)
+                            print("move-z")
+                        vol = dis*0.01*10
+                        vol = min(100,vol)
+                        vol = max(30,vol)
+                        dis = int(dis * 0.01)
+                        dis = min(100, dis)
+                        dis = max(20, dis)
+                        sendTello('speed'+' '+str(vol))
+                        sendTello(move[cmd] + ' ' + str(dis))
                     else:
-                        if dz >= 0:
-                            cmd = 4
-                        else:
-                            cmd = 3
-                        dis = abs(dz)
-                    vol = int(((dis*0.01)/dt)*2)
-                    vol = min(100,vol)
-                    vol = max(1,vol)
-                    dis = int(dis * 0.01)
-                    dis = min(100, dis)
-                    dis = max(20, dis)
-                    sendTello('speed'+' '+str(vol))
-                    sendTello(move[cmd] + ' ' + str(dis))
-                #frの値を更新
-                fr[0] = to[0]
-                fr[1] = to[1]
-                fr[2] = to[2]
-                fr[3] = to[3]
+                        ready = 1
+                    #frの値を更新
+                    fr[0] = to[0]
+                    fr[1] = to[1]
+                    fr[2] = to[2]
+                    fr[3] = to[3] 
 
                 # client.send(b"I am socket server...\n")
                 client.close()
