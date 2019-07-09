@@ -34,7 +34,7 @@ type SendData struct {
 type ReceiveData struct {
 	Right hand `json:"right"`
 	Left  hand `json:"left"`
-	Time  int  `json:"-"`
+	Time  int  `json:"-"` // milli second
 }
 
 func (h *hand) String() string {

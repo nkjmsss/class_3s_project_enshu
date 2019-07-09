@@ -6,7 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/nkjmsss/class_3s_project_enshu/middleware/gesture"
+	"github.com/nkjmsss/class_3s_project_enshu/middleware/history"
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/tcp"
 )
@@ -29,21 +29,26 @@ func HandlePost(c echo.Context) error {
 		RightHand: r.Right,
 	}
 
+	history.Log(r)
+
 	// check if gesture is done
-	gesture.Log(r)
-	if gesture.DoTakeoff() {
+	if history.DoTakeoff() {
 		d.Command = models.TAKEOFF
 		// fmt.Println("take off!!!")
 	}
-	if gesture.DoLand() {
+	if history.DoLand() {
 		d.Command = models.LAND
 		// fmt.Println("land!!!")
 	}
 
 	// log.Info("\n" + d.RightHand.String())
 
-	if err := sendTCP(d); err != nil {
-		return err
+	if send, shape := history.DoSend(); send {
+		d.RightHand.Shape = shape
+
+		if err := sendTCP(d); err != nil {
+			return err
+		}
 	}
 
 	return c.JSON(http.StatusOK, d)

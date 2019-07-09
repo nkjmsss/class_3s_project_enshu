@@ -1,4 +1,4 @@
-package gesture
+package history
 
 import (
 	"github.com/nkjmsss/class_3s_project_enshu/middleware/models"
