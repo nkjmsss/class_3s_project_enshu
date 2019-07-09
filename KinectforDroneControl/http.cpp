@@ -28,7 +28,7 @@ using namespace web::http::client;          // HTTP client features
 pplx::task<int> Post(int rx, int ry, int rz, int rshape,
 					 int lx, int ly, int lz, int lshape)
 {
-	return pplx::create_task([&]
+	return pplx::create_task([=]
 	{
 		json::value postData;
 
@@ -40,6 +40,7 @@ pplx::task<int> Post(int rx, int ry, int rz, int rshape,
 		postData[L"left"][L"y"] = json::value::number(ly);
 		postData[L"left"][L"z"] = json::value::number(lz);
 		postData[L"left"][L"shape"] = json::value::number(lshape);
+		MyOutputDebugString(L"rshape in Post task = %d\n", rshape)
 
 		http_client client(L"http://localhost:1323");
 		return client.request(methods::POST, L"", postData.serialize(), L"application/json");
@@ -54,21 +55,6 @@ pplx::task<int> Post(int rx, int ry, int rz, int rshape,
 			MyOutputDebugString(L"%d\n", 500);
 			return 500;
 		}
-		//if (response.status_code() == status_codes::OK)
-		//{
-		//	//auto body = response.extract_string();
-		//	//std::wcout << body.get().c_str() << std::endl;
-		//	//std::cout << response.extract_json() << std::endl;
-		//	return response.extract_json();
-		//}
-	//}).then([](json::value json)
-	//{
-	//	
-	//	// リザルトコードを返す
-	//	int resultCode = json[L"time"].as_integer();
-	//	MyOutputDebugString(L"time = %d\n", resultCode);
-	//	return resultCode;
-	//	
 	});
 }
 
@@ -83,10 +69,8 @@ void httpPost(double rx, double ry, double rz, int rshape,
 		int _lx = lx * SCALING_NUMBER;
 		int _ly = ly * SCALING_NUMBER;
 		int _lz = lz * SCALING_NUMBER;
-		//auto result = Post(_rx, _ry, _rz, rshape, _lx, _ly, _lz, lshape).wait();
 		auto result = Post(_rx, _ry, _rz, rshape, _lx, _ly, _lz, lshape);
-		MyOutputDebugString(L"posted\n");
-		//MyOutputDebugString(L"Result=%d\n", result);
+		MyOutputDebugString(L"rshape in httpPost = %d\n", rshape);
 	}
 	catch (const std::exception& e)
 	{
