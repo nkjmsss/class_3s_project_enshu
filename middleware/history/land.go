@@ -8,8 +8,8 @@ type history []*models.ReceiveData
 
 const (
 	maxLength   = 1000
-	threshold   = 100000  // 10%
-	maxDuration = 1000000 // 1s
+	threshold   = 100000 // 10%
+	maxDuration = 1000   // 1s
 )
 
 var historyData = make(history, maxLength)
