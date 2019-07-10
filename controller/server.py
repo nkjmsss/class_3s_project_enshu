@@ -32,6 +32,7 @@ def main():
         print('Server is listening on controller:1324')
         ready = 0
         land = 0
+        currrent = [0,0,0]
 
         while True:
 
@@ -97,14 +98,14 @@ def main():
                                 cmd = 7
                             else:
                                 cmd = 8
-                            dis = int(abs(dy)*0.007)
+                            dis = int(abs(dy)*0.005)
                         else:
                             if dz >= 0:
                                 cmd = 4
                             else:
                                 cmd = 3
                             dis = int(abs(dz)*0.01)
-                        vol = dis*5
+                        vol = dis*2
                         vol = min(100,vol)
                         vol = max(30,vol)
                         dis = min(100, dis)
