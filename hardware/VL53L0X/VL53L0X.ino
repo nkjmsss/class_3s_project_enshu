@@ -43,10 +43,22 @@ void setup() {
   sensor.startContinuous();
 
   pinMode(26,OUTPUT);
+  pinMode(32,OUTPUT);
+  
+  pinMode(34,OUTPUT);
+  pinMode(19,OUTPUT);
+
+  pinMode(25,OUTPUT);
+  pinMode(23,OUTPUT);
 }
 
 void loop() {
-  digitalWrite(26,HIGH);
+  digitalWrite(26,LOW);
+  digitalWrite(32,HIGH);
+  digitalWrite(34,LOW);
+  digitalWrite(19,LOW);
+  digitalWrite(25,LOW);
+  digitalWrite(23,LOW);
   
   HTTPClient http;
   http.begin(URL);
