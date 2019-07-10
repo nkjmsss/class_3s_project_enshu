@@ -31,6 +31,7 @@ def main():
         server.listen(5)
         print('Server is listening on controller:1324')
         ready = 0
+        land = 0
 
         while True:
 
@@ -60,9 +61,11 @@ def main():
                     takeoffland = 9
                 elif recieve_message['command'] == 2:
                     takeoffland = 10
+                    land = 1
 
                 if takeoffland > 0:
                     sendTello(move[takeoffland])
+
 
                 #toは手の動きの相対的な変化を記録する
                 to = [-1, -1, -1, -1]
@@ -106,8 +109,9 @@ def main():
                         vol = max(30,vol)
                         dis = min(100, dis)
                         dis = max(20, dis)
-                        sendTello('speed'+' '+str(vol))
-                        sendTello(move[cmd] + ' ' + str(dis))
+                        if land != 1: 
+                            sendTello('speed'+' '+str(vol))
+                            sendTello(move[cmd] + ' ' + str(dis))
                     else:
                         ready = 1
                     #frの値を更新
