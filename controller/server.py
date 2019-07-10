@@ -69,7 +69,7 @@ def main():
 
 
                 #toは手の動きの相対的な変化を記録する
-                to = [-1, -1, -1, -1]
+                to = [-1, -1, -1, -1,0]
                 to[0] = recieve_message['x']
                 to[1] = recieve_message['y']
                 to[2] = recieve_message['z']
