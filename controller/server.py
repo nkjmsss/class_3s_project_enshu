@@ -5,7 +5,7 @@ import numpy as np
 
 #kinectから受け取ったデータを保存
 # [x,y,z,time]
-fr = [0.0, 0.0, 0.0, 0.0]  #追加
+fr = [0.0, 0.0, 0.0, 0.0, 0]  #追加
 
 
 def main():
@@ -31,6 +31,8 @@ def main():
         server.listen(5)
         print('Server is listening on controller:1324')
         ready = 0
+        land = 0
+        currrent = [0,0,0]
 
         while True:
 
@@ -60,16 +62,19 @@ def main():
                     takeoffland = 9
                 elif recieve_message['command'] == 2:
                     takeoffland = 10
+                    land = 1
 
                 if takeoffland > 0:
                     sendTello(move[takeoffland])
 
+
                 #toは手の動きの相対的な変化を記録する
-                to = [-1, -1, -1, -1]
+                to = [-1, -1, -1, -1,0]
                 to[0] = recieve_message['x']
                 to[1] = recieve_message['y']
                 to[2] = recieve_message['z']
                 to[3] = recieve_message['time']
+                to[4] = recieve_message['shape']
                 #手がグーなら移動
                 if recieve_message['shape'] != 3:
                     ready = 0
@@ -94,27 +99,29 @@ def main():
                                 cmd = 7
                             else:
                                 cmd = 8
-                            dis = int(abs(dy)*0.007)
+                            dis = int(abs(dy)*0.005)
                         else:
                             if dz >= 0:
                                 cmd = 4
                             else:
                                 cmd = 3
                             dis = int(abs(dz)*0.01)
-                        vol = dis*5
+                        vol = int(dis*0.5/dt)
                         vol = min(100,vol)
                         vol = max(30,vol)
                         dis = min(100, dis)
                         dis = max(20, dis)
-                        sendTello('speed'+' '+str(vol))
-                        sendTello(move[cmd] + ' ' + str(dis))
+                        if land != 1 and fr[4] == 3: 
+                            sendTello('speed'+' '+str(vol))
+                            sendTello(move[cmd] + ' ' + str(dis))
                     else:
                         ready = 1
-                    #frの値を更新
-                    fr[0] = to[0]
-                    fr[1] = to[1]
-                    fr[2] = to[2]
-                    fr[3] = to[3] 
+                #frの値を更新
+                fr[0] = to[0]
+                fr[1] = to[1]
+                fr[2] = to[2]
+                fr[3] = to[3] 
+                fr[4] = to[4]
 
                 # client.send(b"I am socket server...\n")
                 client.close()
