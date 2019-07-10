@@ -88,24 +88,22 @@ def main():
                                 cmd = 6
                             else:
                                 cmd = 5
-                            dis = abs(dx)
+                            dis = int(abs(dx)*0.01)
                         elif maxd == abs(dy):
                             if dy >=0:
                                 cmd = 7
                             else:
                                 cmd = 8
-                            dis = abs(dy)
+                            dis = int(abs(dy)*0.007)
                         else:
                             if dz >= 0:
                                 cmd = 4
                             else:
                                 cmd = 3
-                            dis = abs(dz)
-                            print("move-z")
-                        vol = dis*0.01*10
+                            dis = int(abs(dz)*0.01)
+                        vol = dis*5
                         vol = min(100,vol)
                         vol = max(30,vol)
-                        dis = int(dis * 0.01)
                         dis = min(100, dis)
                         dis = max(20, dis)
                         sendTello('speed'+' '+str(vol))
