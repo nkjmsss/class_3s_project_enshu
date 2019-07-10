@@ -36,7 +36,7 @@ func HandlePost(c echo.Context) error {
 	history.Log(r)
 
 	// do nothing after landing for a while
-	if time.Now().After(landTime.Add(5 * time.Second)) {
+	if time.Now().Before(landTime.Add(5 * time.Second)) {
 		return nil
 	}
 
