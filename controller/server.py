@@ -32,7 +32,7 @@ def main():
         print('Server is listening on controller:1324')
         ready = 0
         land = 0
-        currrent = [0,0,0]
+        cur = [0,0,0]
 
         while True:
 
@@ -83,37 +83,22 @@ def main():
                     cmd = -1
                     dis = -1
                     if ready:
-                        dx = to[0] - fr[0]
-                        dy = to[1] - fr[1]
-                        dz = to[2] - fr[2]
+                        dx = int((to[0] - fr[0])*0.01)
+                        dy = int((to[1] - fr[1])*0.005)
+                        dz = int((to[2] - fr[2])*0.01)
+                        dis = np.sqrt(dx**2+dy**2+dz**2)
                         dt = to[3] - fr[3]
-                        maxd = max(max(abs(dx),abs(dy)),abs(dz))
-                        if maxd == abs(dx):
-                            if dx >= 0:
-                                cmd = 6
-                            else:
-                                cmd = 5
-                            dis = int(abs(dx)*0.01)
-                        elif maxd == abs(dy):
-                            if dy >=0:
-                                cmd = 7
-                            else:
-                                cmd = 8
-                            dis = int(abs(dy)*0.005)
-                        else:
-                            if dz >= 0:
-                                cmd = 4
-                            else:
-                                cmd = 3
-                            dis = int(abs(dz)*0.01)
                         vol = int(dis*0.5/dt)
                         vol = min(100,vol)
                         vol = max(30,vol)
-                        dis = min(100, dis)
-                        dis = max(20, dis)
+                        x = max(min(cur[0]+dx,500),-500)
+                        y = max(min(cur[1]-dz,500),-500)
+                        z = max(min(cur[2]+dy,500),-500)
                         if land != 1 and fr[4] == 3: 
-                            sendTello('speed'+' '+str(vol))
-                            sendTello(move[cmd] + ' ' + str(dis))
+                            sendTello('go'+' '+str(x)+' '+str(y)+' '+str(z)+' '+str(vol))
+                            cur[0] = x
+                            cur[1] = y
+                            cur[2] = z
                     else:
                         ready = 1
                 #frの値を更新
