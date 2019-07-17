@@ -38,6 +38,5 @@ func main() {
 
 	e.GET("/", handler.HandleGet)
 	e.POST("/", handler.HandlePost)
-	e.File("/", "public")
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", PORT)))
 }
