@@ -18,25 +18,17 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   right();
-  delay(200);
+  delay(5000);
 }
 
 void right(){
-  digitalWrite(14,HIGH);
-  delay(200);
-  digitalWrite(12,HIGH);
-  delay(200);
-  digitalWrite(14,LOW);
-  delay(150);
-  digitalWrite(12,LOW);  
-}
-
-void top(){
-  digitalWrite(15,HIGH);
-  delay(200);
-  digitalWrite(13,HIGH);
-  delay(200);
-  digitalWrite(15,LOW);
-  delay(150);
-  digitalWrite(13,LOW);  
+  analogWrite(14,255);
+  delay(30);
+  for(int i=200;i>100;i--){
+    analogWrite(14,i);
+    analogWrite(12,300-i);
+    delay(1);
+  }
+  analogWrite(12,255);
+  delay(50);
 }
